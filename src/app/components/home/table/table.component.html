@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div class="row justify-content-md-center">
+<div class="col-md-4 col-offset-6 mt-4">   
+    <p class="alert alert-primary text-center" style="font-size: xx-large;" *ngIf="yourNext">Sıra Sizde ({{yourMark}})</p>
+    <p class="alert alert-success text-center" style="font-size: xx-large;" *ngIf="!yourNext">Sıra Karşı Tarafta ({{yourMark == "X" ? 'X' : 'O'}})</p>
+    <button
+      class="btn btn-default"
+      *ngFor="let detail of details"
+      style="width: 205px; height: 210px; border: 1px solid; font-size: 100px;"
+      [disabled]="!yourNext || detail.value != ''"
+      (click)="detail">
+      {{detail.value}}
+    </button>    
+</div>
+</div>

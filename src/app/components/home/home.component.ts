@@ -1,8 +1,9 @@
 import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { TicTacToeUserModel } from './model/tictactoe-user.model';
+import { Router } from '@angular/router';
+import { TicTacToeTableModel } from './model/tictactor-table.model';
 import { DecodeService } from './service/decode.service';
 import { SignalrService } from './service/signalr.service';
+import { TableService } from './service/table.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,36 +14,52 @@ import { SignalrService } from './service/signalr.service';
 })
 export class HomeComponent implements OnInit, AfterContentChecked {
 
-  userId: number = 0;
-  toUserId: number = 0;
-  users: TicTacToeUserModel[] = [];  
-  message: string = "";
-  toUserName: string = "";
-  toUserAvatar: string = "";
-  filterText: string = "";
-  fileUrl: string = environment.fileUrl;
+  userId: number = 0;    
+  tables: TicTacToeTableModel[] = [];
 
 
   constructor(
     private _decode: DecodeService,    
     private _signalR: SignalrService,
-    private _cdref: ChangeDetectorRef
+    private _cdref: ChangeDetectorRef,
+    private _table: TableService,
+    private _router: Router
   ) {
     this.getUserId();
-    this._signalR.start("https://localhost:7146/chat-hub")
+    this._signalR.start("https://angularegitimleriapi.ecnorow.com/tictactoe-hub")
    }
+
   ngAfterContentChecked(): void {
     this._cdref.detectChanges();
   }
 
-  ngOnInit(): void {    
-    this._signalR.on("messageMethod", message => {
-    })
+  ngOnInit(): void {   
+    this.getUserId(); 
+     this._signalR.on("GetTableList", message => {        
+        this.getList();
+      });
+    this.getList();
   }
 
   getUserId(){
-    this.userId = this._decode.getUserId();
+    this.userId = this._decode.getUserId();    
   }
-  
 
+  getList(){
+    this._table.getList().subscribe((res)=>{
+      this.tables = res.data;      
+    });
+  } 
+
+  createTable(){
+    this._table.createTable(this.userId).subscribe((res)=>{
+      this._router.navigateByUrl("/table/" + res.data);
+    })
+  }
+
+  joinTable(table: TicTacToeTableModel){
+    this._table.joinTable(table.id, this.userId).subscribe((res)=>{
+      this._router.navigateByUrl("/table/" + table.id);
+    })
+  }
 }
