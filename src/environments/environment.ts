@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://localhost:7146/api/',
+  fileUrl: 'https://files.ecnorow.com/chat/'
 };
 
 /*
