@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { CanDeactiveGuard } from './components/home/table/guard/can-deactive.guard';
 import { TableComponent } from './components/home/table/table.component';
 import { AuthGuard } from './components/login/guard/auth.guard';
 import { LoginComponent } from './components/login/login.component';
@@ -22,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'table/:value',
-    component: TableComponent,    
+    component: TableComponent,  
+    canDeactivate: [CanDeactiveGuard]  
   }
 
 ];

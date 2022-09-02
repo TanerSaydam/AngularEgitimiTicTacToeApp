@@ -1,15 +1,27 @@
 <app-navbar></app-navbar>
 <div class="row justify-content-md-center">
-<div class="col-md-4 col-offset-6 mt-4">   
-    <p class="alert alert-primary text-center" style="font-size: xx-large;" *ngIf="yourNext">Sıra Sizde ({{yourMark}})</p>
-    <p class="alert alert-success text-center" style="font-size: xx-large;" *ngIf="!yourNext">Sıra Karşı Tarafta ({{yourMark == "X" ? 'X' : 'O'}})</p>
-    <button
-      class="btn btn-default"
-      *ngFor="let detail of details"
+  <div class="col-lg-5 col-offset-4 mt-4">
+    <div *ngIf="table.userId == userId || table.toUserId == userId">
+      <p class="alert alert-primary text-center" style="font-size: xx-large;" *ngIf="yourNext && table.status">Sıra
+        Sizde ({{yourMark}})
+      </p>
+      <p class="alert alert-success text-center" style="font-size: xx-large;" *ngIf="!yourNext && table.status">Sıra
+        Karşı Tarafta
+        ({{yourMark == "X" ? 'O' : 'X'}})</p>
+      <div class="d-grid gap-2" *ngIf="table.status">
+        <button class="btn btn-danger btn-block" (click)="closeTable()">Oyunu Sonlandır</button>
+      </div>
+    </div>
+    <!-- <p class="alert alert-danger" *ngIf="!table.status">Masa Kapalı</p> -->
+    <p class="alert alert-success" *ngIf="winner.winnerName != ''">Kazanan {{winner.winnerName}}</p>
+    <p class="alert alert-info" *ngIf="winner.winnerName == '' && markColumn == 9">Berabere</p>
+
+    <br>
+    <button [class]="checkOutForWinnerColumn(detail)" *ngFor="let detail of details"
       style="width: 205px; height: 210px; border: 1px solid; font-size: 100px;"
-      [disabled]="!yourNext || detail.value != ''"
-      (click)="detail">
+      [disabled]="!yourNext || detail.value != '' || !table.status || (table.userId != userId && table.toUserId != userId)"
+      (click)="markTable(detail)">
       {{detail.value}}
-    </button>    
-</div>
+    </button>
+  </div>
 </div>

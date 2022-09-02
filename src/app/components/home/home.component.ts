@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit, AfterContentChecked {
   ) {
     this.getUserId();
     this._signalR.start("https://angularegitimleriapi.ecnorow.com/tictactoe-hub")
+    //this._signalR.start("https://localhost:7146/tictactoe-hub")
    }
 
   ngAfterContentChecked(): void {
@@ -61,5 +62,9 @@ export class HomeComponent implements OnInit, AfterContentChecked {
     this._table.joinTable(table.id, this.userId).subscribe((res)=>{
       this._router.navigateByUrl("/table/" + table.id);
     })
+  }
+
+  watchTable(tableId: string){
+    this._router.navigateByUrl("/table/" + tableId);
   }
 }

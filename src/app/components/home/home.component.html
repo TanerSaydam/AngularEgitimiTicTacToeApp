@@ -19,13 +19,11 @@
         <tr *ngFor="let table of tables let index = index">
             <td [innerText]="index + 1"></td>
             <td [innerText]="table.name"></td>
-            <td [innerText]="table.status ? 'Açık' : 'Dolu'"></td>
+            <td [innerText]="table.status ? (table.toUserId > 0 ? 'Dolu' : 'Açık') : 'Kapalı'"></td>
             <td>
                 <button class="btn btn-primary" *ngIf="table.status && (table.userId != userId && table.toUserId != userId)" (click)="joinTable(table)">Masaya Katıl</button>
-                <button class="btn btn-warning" *ngIf="!table.status && (table.userId != userId && table.toUserId != userId)">Masayı İzle</button>
-                <p *ngIf="table.userId == userId || table.toUserId == userId" class="text-danger">
-                    Kendi masanıza katılamaz ya da izleyemezsiniz
-                </p>
+                <button class="btn btn-warning mx-2" *ngIf="table.status" (click)="watchTable(table.id)">Masayı İzle</button>
+               
             </td>
         </tr>
     </tbody>

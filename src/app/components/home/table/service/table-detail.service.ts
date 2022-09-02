@@ -23,4 +23,9 @@ export class TableDetailService {
     let api = this.apiUrl + "TicTacToeTableDetails/Update";
     return this._http.post<any>(api,model);
   }
+
+  newGame(tableId: string){
+    let api = this.apiUrl + "TicTacToeTableDetails/NewGame/" + tableId;
+    return this._http.get<any>(api);
+  }
 }

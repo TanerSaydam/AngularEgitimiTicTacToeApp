@@ -15,4 +15,10 @@ export class DecodeService {
     let userId = Object.keys(decode).filter(x=> x.endsWith("/nameidentifier"))[0];    
     return decode[userId];
   }
+
+  getUserName(){
+    let decode = this.jwt.decodeToken(localStorage.getItem("token"));    
+    let userName = Object.keys(decode).filter(x=> x.endsWith("/name"))[0];    
+    return decode[userName];
+  }
 }

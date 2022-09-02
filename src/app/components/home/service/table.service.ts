@@ -28,6 +28,11 @@ export class TableService {
     return this._http.get<any>(api)
   }
 
+  closeTable(tableId: string){
+    let api = this.apiUrl + "TicTacToeTables/CloseTable/" + tableId;
+    return this._http.get<any>(api)
+  }
+
   getById(tableId: string){
     let api = this.apiUrl + "TicTacToeTables/GetById/" + tableId;
     return this._http.get<any>(api);
